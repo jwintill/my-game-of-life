@@ -3,7 +3,7 @@
 
 // to run input the following command
 /*
-g++ main.cpp Grid.cpp -o GameOfLife -std=c++17 \
+g++ src/main.cpp src/Grid.cpp -o GameOfLife -std=c++17 \
 -I/opt/homebrew/opt/sdl2/include/SDL2 \
 -L/opt/homebrew/opt/sdl2/lib -lSDL2
 ./GameOfLife
