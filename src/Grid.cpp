@@ -1,7 +1,7 @@
 #include <SDL.h>
 #include "Grid.h"
 
-const int NEIGHBORHOOD = 5; // side length of neighborhood square (should be odd number)
+const int NEIGHBORHOOD = 7; // side length of neighborhood square (should be odd number)
 Grid::Grid(int windowSize, int cellSize){
     this->cellSize = cellSize;
     this->rowSize = windowSize/cellSize;
@@ -17,7 +17,7 @@ Grid::Grid(int windowSize, int cellSize){
 
     for (int x = 0; x < this->rowSize; x++){
         for (int y = 0; y < this->rowSize; y++){    
-            grid[x][y] = rand() % 2;
+            grid[x][y] = rand() % 765;
         }
     }
 }
@@ -76,11 +76,11 @@ void Grid::render(SDL_Renderer* renderer){
         for(int y = 0; y < this->rowSize; y++){
             int currState = grid[x][y];
             int colors[3] = {0, 0, 0};
-            colors[0] = currState % 255;
+            colors[2] = currState % 255;
             if(currState - 255 > 0){
-                colors[1] = (currState - 255) % 255;
+                colors[0] = (currState - 255) % 255;
                 if(currState - 510 > 0)
-                    colors[2] = currState - 510;
+                    colors[1] = currState - 510;
             }
             SDL_SetRenderDrawColor(renderer, colors[0], colors[1], colors[2], 255);
             SDL_Rect rect = {x*cellSize, y*cellSize, cellSize, cellSize};
