@@ -1,12 +1,9 @@
 #include <SDL.h>
 #include "Grid.h"
 
-// to run input the following command
-/*
-g++ src/main.cpp src/Grid.cpp -o GameOfLife -std=c++17 \
--I/opt/homebrew/opt/sdl2/include/SDL2 \
--L/opt/homebrew/opt/sdl2/lib -lSDL2
-./GameOfLife
+/* whenever code is changed, run:
+    cmake --build build
+    ./build/GameOfLife
 */
 const int WINDOW_SIZE = 800;
 const int CELL_SIZE = 2;
