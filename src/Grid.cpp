@@ -1,7 +1,7 @@
 #include <SDL.h>
 #include "Grid.h"
 
-const int NEIGHBORHOOD = 3; // side length of neighborhood square (should be odd number)
+const int NEIGHBORHOOD = 5; // side length of neighborhood square (should be odd number)
 Grid::Grid(int windowSize, int cellSize){
     this->cellSize = cellSize;
     this->rowSize = windowSize/cellSize;
@@ -57,13 +57,10 @@ void Grid::nextState(){
     for(int x = 0; x < this->rowSize; x++){
         for(int y = 0; y < this->rowSize; y++){    
             int neighbors = this->getNeighbors(x, y);
-            nextGridState[x][y] = grid[x][y]; // default to current state
-            if(grid[x][y] == 1){
-                if(neighbors < 2 || neighbors > 3){
-                    nextGridState[x][y] = 0;
-                }
-            }else if(neighbors == 3)
-                nextGridState[x][y] = 1;
+            int possibleNeighbors = NEIGHBORHOOD * NEIGHBORHOOD - 1;
+            //setting state to an average of neighbors scaled to 765(3*255)
+            nextGridState[x][y] = (static_cast<double>(neighbors)/possibleNeighbors)*765;
+    
         }
     }
 
@@ -76,11 +73,16 @@ void Grid::nextState(){
 
 void Grid::render(SDL_Renderer* renderer){
     for(int x = 0; x < this->rowSize; x++){
-        for(int y = 0; y < this->rowSize; y++){    
-            SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255); // black        
-            if(grid[x][y] == 1)
-                SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255); // white
-
+        for(int y = 0; y < this->rowSize; y++){
+            int currState = grid[x][y];
+            int colors[3] = {0, 0, 0};
+            colors[0] = currState % 255;
+            if(currState - 255 > 0){
+                colors[1] = (currState - 255) % 255;
+                if(currState - 510 > 0)
+                    colors[2] = currState - 510;
+            }
+            SDL_SetRenderDrawColor(renderer, colors[0], colors[1], colors[2], 255);
             SDL_Rect rect = {x*cellSize, y*cellSize, cellSize, cellSize};
             SDL_RenderFillRect(renderer, &rect);
         }
