@@ -4,7 +4,9 @@ I recently learned about cellular automatas other than Conway's Game of Life, so
 
 **Tech used:** C++, SDL2
 
-I started with a simple implementation of Conway's Game of Life. I used C++ because although it isn't mean for visuals, it's what I'm doing in school so I wanted to continue use of it. I use a 2D arry to store the cells. I have tried using a 1D array before and although it maybe more optimized, I found it hard to understand and the optimal solution isn't really what my goal is. After Conway's was fully implemented I've now started making it smoother one step at a time, starting with colors then rules.
+I started with a simple implementation of Conway's Game of Life. I used C++ because although it isn't mean for visuals, it's what I'm doing in school so I wanted to continue use of it. I use a 2D arry to store the cells. I have tried using a 1D array before and although it maybe more optimized, I found it hard to understand and the optimal solution isn't really what my goal is. After Conway's was fully implemented I've now started making it smoother one step at a time, starting with colors then rules. The first new rule set I implemented was almost completely taken from Stephen Rafler's SmoothLife
+
+**Link to Rafler's paper:** https://arxiv.org/pdf/1111.1567
 
 ## Optimizations
 

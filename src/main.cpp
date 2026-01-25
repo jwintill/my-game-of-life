@@ -6,10 +6,14 @@
     ./build/GameOfLife
 */
 const int WINDOW_SIZE = 800;
-const int CELL_SIZE = 10;
+const int CELL_SIZE = 4;
+const double B1 = 0.278;
+const double B2 = 0.365;
+const double D1 = 0.267;
+const double D2 = 0.445;
 
 int main() {
-    Grid grid(WINDOW_SIZE, CELL_SIZE);
+    Grid grid(WINDOW_SIZE, CELL_SIZE, B1, B2, D1, D2);
 
     SDL_Init(SDL_INIT_VIDEO);
 
