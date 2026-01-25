@@ -1,7 +1,7 @@
 #include <SDL.h>
 #include "Grid.h"
 
-const int NEIGHBORHOOD = 3; // side length of neighborhood square (should be odd number)
+const int NEIGHBORHOOD = 7; // side length of neighborhood square (should be odd number)
 Grid::Grid(int windowSize, int cellSize){
     this->cellSize = cellSize;
     this->rowSize = windowSize/cellSize;
@@ -59,7 +59,7 @@ void Grid::nextState(){
             int neighbors = this->getNeighbors(x, y);
             int possibleNeighbors = NEIGHBORHOOD * NEIGHBORHOOD - 1;
             //setting state to an average of neighbors scaled to 1530(6*255)
-            nextGridState[x][y] = static_cast<int>((static_cast<double>(neighbors)/possibleNeighbors)*1529) % 1530;
+            nextGridState[x][y] = (static_cast<int>((static_cast<double>(neighbors)/possibleNeighbors)*1529) % 1530)*.05 + grid[x][y]*.95;
     
         }
     }
@@ -80,39 +80,34 @@ void Grid::render(SDL_Renderer* renderer){
             switch (transitionPhase) {
                 case 0:
                     color[0] = 255;
-                    color[1] = currState % 256;
+                    color[1] = currState % 255;
                     color[2] = 0;
                     break;
                 case 1:
-                    color[0] = 255 - (currState % 256);
+                    color[0] = 255 - (currState % 255);
                     color[1] = 255;
                     color[2] = 0;
                     break;
                 case 2:
                     color[0] = 0;
                     color[1] = 255;
-                    color[2] = currState % 256;
+                    color[2] = currState % 255;
                     break;
                 case 3: 
                     color[0] = 0;
-                    color[1] = 255 - (currState % 256);
+                    color[1] = 255 - (currState % 255);
                     color[2] = 255;
                     break;
                 case 4:
-                    color[0] = currState % 256;
+                    color[0] = currState % 255;
                     color[1] = 0;
                     color[2] = 255;
                     break;
                 case 5:
                     color[0] = 255;
                     color[1] = 0;
-                    color[2] = 255 - (currState % 256);
+                    color[2] = 255 - (currState % 255);
                     break;
-                default:
-                color[0] = 255;
-                color[1] = 255;
-                color[2] = 255 - (currState % 256);
-                break;
             }
             
             SDL_SetRenderDrawColor(renderer, color[0], color[1], color[2], 255);
