@@ -1,12 +1,12 @@
 #include <SDL.h>
 #include "Grid.h"
 
-/* whenever code is changed, run:
+/* to build and run:
     cmake --build build
     ./build/GameOfLife
 */
 const int WINDOW_SIZE = 800;
-const int CELL_SIZE = 2;
+const int CELL_SIZE = 10;
 
 int main() {
     Grid grid(WINDOW_SIZE, CELL_SIZE);

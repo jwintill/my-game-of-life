@@ -13,7 +13,7 @@ private:
     int cellSize;
 
     bool inBounds(int x, int y);
-    int getNeighbors(int x, int y);
+    int getNeighbors(int x, int y, int neighborhoodSize);
 
 public:
     Grid(int windowSize, int cell);

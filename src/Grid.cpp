@@ -1,7 +1,8 @@
 #include <SDL.h>
 #include "Grid.h"
 
-const int NEIGHBORHOOD = 7; // side length of neighborhood square (should be odd number)
+const int INNERNEIGHBORHOOD = 9; // side length of neighborhood square (should be odd number)
+const int OUTERNEIGHBORHOOD = 15;
 Grid::Grid(int windowSize, int cellSize){
     this->cellSize = cellSize;
     this->rowSize = windowSize/cellSize;
@@ -35,10 +36,10 @@ bool Grid::inBounds(int x, int y) {
     return (x >= 0 && x < rowSize) && (y >= 0 && y < rowSize);
 }
 
-int Grid::getNeighbors(int x, int y){
+int Grid::getNeighbors(int x, int y, int neighborhoodSize){
     int neighbors = 0;
-    for(int i = -1*(NEIGHBORHOOD-1)/2; i <= (NEIGHBORHOOD-1)/2; i++){
-        for(int j = -1*(NEIGHBORHOOD-1)/2; j <= (NEIGHBORHOOD-1)/2; j++){
+    for(int i = -1*(neighborhoodSize-1)/2; i <= (neighborhoodSize-1)/2; i++){
+        for(int j = -1*(neighborhoodSize-1)/2; j <= (neighborhoodSize-1)/2; j++){
             if (i == 0 && j == 0)
                 continue;
             
@@ -54,12 +55,18 @@ int Grid::getNeighbors(int x, int y){
 }
 
 void Grid::nextState(){
+    int innerNeighbors, outerNeighbors, maxOuterNeighbors, maxInnerNeighbors;
+    double weightedAverage;
     for(int x = 0; x < this->rowSize; x++){
         for(int y = 0; y < this->rowSize; y++){    
-            int neighbors = this->getNeighbors(x, y);
-            int possibleNeighbors = NEIGHBORHOOD * NEIGHBORHOOD - 1;
+            innerNeighbors = this->getNeighbors(x, y, INNERNEIGHBORHOOD);
+            outerNeighbors = this->getNeighbors(x, y, OUTERNEIGHBORHOOD);
+            maxInnerNeighbors = INNERNEIGHBORHOOD * INNERNEIGHBORHOOD - 1;
+            maxOuterNeighbors = OUTERNEIGHBORHOOD * OUTERNEIGHBORHOOD - INNERNEIGHBORHOOD * INNERNEIGHBORHOOD;
             //setting state to an average of neighbors scaled to 1530(6*255)
-            nextGridState[x][y] = (static_cast<int>((static_cast<double>(neighbors)/possibleNeighbors)*1529) % 1530)*.05 + grid[x][y]*.95;
+            weightedAverage = (1.0*innerNeighbors/maxInnerNeighbors * .05) + (1.0*outerNeighbors/maxOuterNeighbors * .95);
+            nextGridState[x][y] = ((static_cast<int>(weightedAverage) * 1529) % 1530) * .05 + grid[x][y] * .95;
+            //nextGridState[x][y] = (static_cast<int>((static_cast<double>(neighbors)/possibleNeighbors)*1529) % 1530)*.05 + grid[x][y]*.95;
     
         }
     }
