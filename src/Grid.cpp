@@ -40,14 +40,35 @@ bool Grid::inBounds(int x, int y) {
     return (x >= 0 && x < rowSize) && (y >= 0 && y < rowSize);
 }
 
-double Grid::getNeighbors(int x, int y, int neighborhoodSize){
+double Grid::getInnerNeighbors(int x, int y){
     double sum = 0;
     int count = 0;
-    int neighborhoodRadius = (neighborhoodSize - 1) / 2;
+    int neighborhoodRadius = (INNERNEIGHBORHOOD - 1) / 2;
     for(int i = -1 * neighborhoodRadius; i <= neighborhoodRadius; i++){
         int dx = sqrt(neighborhoodRadius * neighborhoodRadius - i * i);
         for(int j = -1 * dx; j <= dx; j++){
             if (i == 0 && j == 0)
+                continue;
+            
+            if(inBounds(x+i, y+j)){
+                sum += grid[x+i][y+j];
+                count++;
+            }
+        }
+    }
+
+    return sum/count;
+}
+
+double Grid::getOuterNeighbors(int x, int y){
+    double sum = 0;
+    int count = 0;
+    int outerNeighborhoodRadius = (OUTERNEIGHBORHOOD - 1) / 2;
+    int innerNeighborhoodRadius = (INNERNEIGHBORHOOD - 1) / 2;
+    for(int i = -1 * outerNeighborhoodRadius; i <= outerNeighborhoodRadius; i++){
+        int dx = sqrt(outerNeighborhoodRadius * outerNeighborhoodRadius - i * i);
+        for(int j = -1 * dx; j <= dx; j++){
+            if ((i == 0 && j == 0)|| (abs(i) <= innerNeighborhoodRadius && abs(j) <= innerNeighborhoodRadius))
                 continue;
             
             if(inBounds(x+i, y+j)){
@@ -76,8 +97,8 @@ double Grid::sigmoid3(double x, double y, double m, double alpha){
 // m and n are the inner and outer "fillings"
 // uses the transition function to determine the next state
 double Grid::transitionFunction(int x, int y){
-    double m = this->getNeighbors(x, y, INNERNEIGHBORHOOD);
-    double n = this->getNeighbors(x, y, OUTERNEIGHBORHOOD);
+    double m = this->getInnerNeighbors(x, y);
+    double n = this->getOuterNeighbors(x, y);
 
     double alpha_m = 0.147;
     double alpha_n = 0.028;

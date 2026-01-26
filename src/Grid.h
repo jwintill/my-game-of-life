@@ -14,7 +14,8 @@ private:
     double b1, b2, d1, d2;
 
     bool inBounds(int x, int y);
-    double getNeighbors(int x, int y, int neighborhoodSize);
+    double getInnerNeighbors(int x, int y);
+    double getOuterNeighbors(int x, int y);
     double sigmoid1(double x, double a, double alpha);
     double sigmoid2(double x, double a, double b, double alpha);
     double sigmoid3(double x, double y, double m, double alpha);
