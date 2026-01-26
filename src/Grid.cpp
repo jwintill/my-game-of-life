@@ -43,15 +43,15 @@ bool Grid::inBounds(int x, int y) {
 double Grid::getNeighbors(int x, int y, int neighborhoodSize){
     double sum = 0;
     int count = 0;
-    for(int i = -1*(neighborhoodSize-1)/2; i <= (neighborhoodSize-1)/2; i++){
-        for(int j = -1*(neighborhoodSize-1)/2; j <= (neighborhoodSize-1)/2; j++){
+    int neighborhoodRadius = (neighborhoodSize - 1) / 2;
+    for(int i = -1 * neighborhoodRadius; i <= neighborhoodRadius; i++){
+        int dx = sqrt(neighborhoodRadius * neighborhoodRadius - i * i);
+        for(int j = -1 * dx; j <= dx; j++){
             if (i == 0 && j == 0)
                 continue;
             
-            int neighborX = x + i;
-            int neighborY = y + j;
-            if(inBounds(neighborX, neighborY)){
-                sum += grid[neighborX][neighborY];
+            if(inBounds(x+i, y+j)){
+                sum += grid[x+i][y+j];
                 count++;
             }
         }
