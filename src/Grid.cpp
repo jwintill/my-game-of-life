@@ -20,11 +20,18 @@ Grid::Grid(int windowSize, int cellSize, double b1, double b2, double d1, double
         nextGridState[i] = new double[rowSize]();
     }
 
-    for (int x = 0; x < this->rowSize; x++){
-        for (int y = 0; y < this->rowSize; y++){    
-            grid[x][y] = (double)rand() / RAND_MAX;
+    for (int x = 0; x < rowSize; x++){
+        for (int y = 0; y < rowSize; y++){    
+            grid[x][y] = 0;
         }
     }
+
+    for (int x = 3*rowSize/8; x < 5*rowSize/8; x++){
+        for (int y = 3*rowSize/8; y < 5*rowSize/8; y++){    
+            grid[x][y] = 1.0;
+        }
+    }
+    
 }
 
 Grid::~Grid() {
