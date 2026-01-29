@@ -34,7 +34,7 @@ Grid::Grid(int windowSize, int cellSize, double b1, double b2, double d1, double
         int dy_limit = sqrt(seedRadius * seedRadius - i * i);
         for(int j = -dy_limit; j <= dy_limit; j++){
             if(inBounds(centerX + i, centerY + j)) {
-                grid[centerX + i][centerY + j] = 1.0;
+                grid[centerX + i][centerY + j] = static_cast <double> (rand()) / RAND_MAX;
             }
         }
     }
