@@ -25,10 +25,17 @@ Grid::Grid(int windowSize, int cellSize, double b1, double b2, double d1, double
             grid[x][y] = 0;
         }
     }
+    
+    int centerX = rowSize / 2;
+    int centerY = rowSize / 2;
+    int seedRadius = rowSize/5;
 
-    for (int x = 3*rowSize/8; x < 5*rowSize/8; x++){
-        for (int y = 3*rowSize/8; y < 5*rowSize/8; y++){    
-            grid[x][y] = 1.0;
+    for(int i = -seedRadius; i <= seedRadius; i++){
+        int dy_limit = sqrt(seedRadius * seedRadius - i * i);
+        for(int j = -dy_limit; j <= dy_limit; j++){
+            if(inBounds(centerX + i, centerY + j)) {
+                grid[centerX + i][centerY + j] = 1.0;
+            }
         }
     }
     
