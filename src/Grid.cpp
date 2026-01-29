@@ -103,10 +103,10 @@ double Grid::transitionFunction(int x, int y){
     double alpha_m = 0.147;
     double alpha_n = 0.028;
 
-    double threshold_low  = sigmoid3(b1, d1, m, alpha_m); 
-    double threshold_high = sigmoid3(b2, d2, m, alpha_m);
+    double threshold_low  = sigmoid3(b1, d1, m, alpha_n); 
+    double threshold_high = sigmoid3(b2, d2, m, alpha_n);
 
-    return sigmoid2(n, threshold_low, threshold_high, alpha_n);
+    return sigmoid2(n, threshold_low, threshold_high, alpha_m);
 }
 
 void Grid::nextState(){
